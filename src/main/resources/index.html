@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Proveedores</title>
+
+        <link rel="stylesheet" href="assets/css/estilos.css">
+    </head>
+
+    <body>
+
+        <div class="contenedor">
+
+            <h1>Proveedores</h1>
+
+            <button class="btn-agregar" onclick="mostrarFormulario()">
+                Agregar
+            </button>
+
+            <div id="formulario" class="formulario oculto">
+
+                <h2>Agregar Proveedor</h2>
+
+                <input type="text" id="nombre" placeholder="Nombre">
+
+                <input type="text" id="direccion" placeholder="Dirección">
+
+                <input type="text" id="telefono" placeholder="Teléfono">
+
+                <input type="email" id="correo" placeholder="Correo">
+
+                <button onclick="guardarProveedor()">
+                    Guardar
+                </button>
+
+                <button onclick="ocultarFormulario()">
+                    Cancelar
+                </button>
+
+            </div>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Id Proveedor</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th>Actualizar</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tablaProveedores">
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <script src="assets/js/Proveedores.js"></script>
+
+    </body>
+</html>
