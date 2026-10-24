@@ -11,7 +11,7 @@ import org.umg.edu.repository.ProveedoresRepository;
 
 /**
  *
- * @author willi
+ * @author mende
  */
 @Path("/Proveedores")
 public class ProveedoresController {
