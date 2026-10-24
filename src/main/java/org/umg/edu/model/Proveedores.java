@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author mende
+ * @author  mende
  */
 
 @Entity
