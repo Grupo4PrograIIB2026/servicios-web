@@ -10,7 +10,7 @@ import org.umg.edu.model.Proveedores;
 
 /**
  *
- * @author willi
+ * @author mende
  */
 
 @RequestScoped
