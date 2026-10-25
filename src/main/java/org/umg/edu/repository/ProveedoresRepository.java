@@ -1,19 +1,18 @@
-
 package org.umg.edu.repository;
 
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import jakarta.enterprise.context.RequestScoped;
+import static io.quarkus.hibernate.orm.panache.PanacheEntityBase.getEntityManager;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.Query;
-import jakarta.transaction.Transactional;
 import java.util.List;
 import org.umg.edu.model.Proveedores;
 
 /**
  *
- * @author  mende
+ * @author willi
  */
 
-@RequestScoped
+/*@RequestScoped
 public class ProveedoresRepository implements PanacheRepository<Proveedores>{
     
     @Transactional
@@ -29,5 +28,17 @@ public class ProveedoresRepository implements PanacheRepository<Proveedores>{
             System.out.println("e-> "+e);
             return null;
         }
+    }
+}*/
+
+@ApplicationScoped
+public class ProveedoresRepository implements PanacheRepositoryBase<Proveedores, Integer> {
+
+    public List<Proveedores> findProveedores() {
+        Query consulta = getEntityManager().createQuery(
+                "SELECT P FROM Proveedores P ORDER BY P.idProveedor ASC"
+        );
+
+        return consulta.getResultList();
     }
 }
