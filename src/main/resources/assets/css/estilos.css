@@ -1,4 +1,3 @@
-css
 body {
     font-family: Arial, sans-serif;
     background-color: white;
@@ -13,11 +12,18 @@ body {
 
 h1 {
     text-align: center;
-    font-size: 45px;
-    margin-bottom: 40px;
+    font-size: 50px;
+    margin-bottom: 45px;
 }
 
 .btn-agregar {
+    padding: 10px 25px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.btn-agregar-producto {
     padding: 10px 25px;
     font-size: 18px;
     margin-bottom: 20px;
@@ -29,6 +35,18 @@ table {
     border-collapse: collapse;
     margin-top: 20px;
 }
+
+.producto {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/*.table tablaProductoAgricola{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}*/
 
 th {
     background-color: #d9d9d9;
@@ -58,7 +76,18 @@ button {
     width: 400px;
 }
 
+.formularioProducto {
+    border: 2px solid black;
+    padding: 20px;
+    margin-bottom: 25px;
+    width: 400px;
+}
+
 .formulario h2 {
+    margin-top: 0;
+}
+
+.formularioProducto h2 {
     margin-top: 0;
 }
 
@@ -70,6 +99,18 @@ button {
     font-size: 15px;
 }
 
+.formularioProducto input {
+    display: block;
+    width: 95%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 15px;
+}
+
 .oculto {
+    display: none;
+}
+
+.ocultoProducto {
     display: none;
 }
