@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Prueba 2 FRONTEND
 
 let proveedorEditandoId = null;
+let proveedorOriginal = null;
 
 function cargarProveedores() {
     fetch("/Proveedores")
@@ -166,97 +167,147 @@ function guardarProveedor() {
         correo: document.getElementById("correo").value.trim()
     };
 
+    const formularioVacio =
+            proveedor.nombre === "" &&
+            proveedor.direccion === "" &&
+            proveedor.telefono === "" &&
+            proveedor.correo === "";
+
+    if (formularioVacio) {
+        alert("Primero agregue un proveedor");
+        return;
+    }
+
+    if (proveedor.nombre === "") {
+        alert("El nombre es obligatorio");
+        return;
+    }
+
     const editando = proveedorEditandoId !== null;
 
-    const url = editando
-            ? `/Proveedores/${proveedorEditandoId}`
-            : "/Proveedores";
+    if (editando && proveedorOriginal) {
+        const sinCambios =
+                proveedor.nombre === proveedorOriginal.nombre &&
+                proveedor.direccion === proveedorOriginal.direccion &&
+                proveedor.telefono === proveedorOriginal.telefono &&
+                proveedor.correo === proveedorOriginal.correo;
 
-    fetch(url, {
-        method: editando ? "PUT" : "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(proveedor)
-    })
-            .then(async response => {
-                if (!response.ok) {
-                    throw new Error(
-                            `HTTP ${response.status}: ${await response.text()}`
+        if (sinCambios) {
+            alert("Primero modifique algún campo");
+            return;
+        }
+    }
+
+        if (editando && proveedorOriginal) {
+            const sinCambios =
+                    proveedor.nombre === proveedorOriginal.nombre &&
+                    proveedor.direccion === proveedorOriginal.direccion &&
+                    proveedor.telefono === proveedorOriginal.telefono &&
+                    proveedor.correo === proveedorOriginal.correo;
+
+            if (sinCambios) {
+                alert("Primero modifique algún campo");
+                return;
+            }
+        }
+
+        const url = editando
+                ? `/Proveedores/${proveedorEditandoId}`
+                : "/Proveedores";
+
+        fetch(url, {
+            method: editando ? "PUT" : "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(proveedor)
+        })
+                .then(async response => {
+                    if (!response.ok) {
+                        throw new Error(
+                                `HTTP ${response.status}: ${await response.text()}`
+                                );
+                    }
+
+                    return response.text();
+                })
+                .then(() => {
+                    alert(editando
+                            ? "Proveedor actualizado correctamente"
+                            : "Proveedor guardado correctamente"
                             );
-                }
 
-                return response.text();
-            })
-            .then(() => {
-                alert(editando
-                        ? "Proveedor actualizado correctamente"
-                        : "Proveedor guardado correctamente"
-                        );
+                    proveedorEditandoId = null;
+                    proveedorOriginal = null;
 
-                proveedorEditandoId = null;
+                    document.getElementById("nombre").value = "";
+                    document.getElementById("direccion").value = "";
+                    document.getElementById("telefono").value = "";
+                    document.getElementById("correo").value = "";
 
-                document.getElementById("nombre").value = "";
-                document.getElementById("direccion").value = "";
-                document.getElementById("telefono").value = "";
-                document.getElementById("correo").value = "";
+                    document.querySelector("#formulario h2").textContent =
+                            "Agregar Proveedor";
 
-                document.querySelector("#formulario h2").textContent =
-                        "Agregar Proveedor";
+                    document.querySelector(
+                            "#formulario button[onclick='guardarProveedor()']"
+                            ).textContent = "Guardar";
 
-                document.querySelector(
-                        "#formulario button[onclick='guardarProveedor()']"
-                        ).textContent = "Guardar";
-
-                ocultarFormulario();
-                cargarProveedores();
-            })
-            .catch(error => {
-                console.error("Error al guardar o actualizar:", error);
-                alert("No se pudo guardar el proveedor. Revisa la consola.");
-            });
-}
+                    ocultarFormulario();
+                    cargarProveedores();
+                })
+                .catch(error => {
+                    console.error("Error al guardar o actualizar:", error);
+                    alert("No se pudo guardar el proveedor. Revisa la consola.");
+                });
+    }
 
 
 //Primera prueba de editar registros
-/*function actualizarProveedor(id) {
- alert("Actualizar proveedor con ID: " + id);
- }*/
+    /*function actualizarProveedor(id) {
+     alert("Actualizar proveedor con ID: " + id);
+     }*/
 
 
-function actualizarProveedor(id) {
-    fetch("/Proveedores")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("No se pudieron consultar los proveedores");
-                }
-                return response.json();
-            })
-            .then(proveedores => {
-                const proveedor = proveedores.find(
-                        p => Number(p.idProveedor) === Number(id)
-                );
+    function actualizarProveedor(id) {
+        fetch("/Proveedores")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("No se pudieron consultar los proveedores");
+                    }
+                    return response.json();
+                })
+                .then(proveedores => {
+                    const proveedor = proveedores.find(
+                            p => Number(p.idProveedor) === Number(id)
+                    );
 
-                if (!proveedor) {
-                    throw new Error("No se encontró el proveedor seleccionado");
-                }
+                    if (!proveedor) {
+                        throw new Error("No se encontró el proveedor seleccionado");
+                    }
 
-                proveedorEditandoId = id;
+                    proveedorEditandoId = id;
 
-                document.getElementById("nombre").value = proveedor.nombre ?? "";
-                document.getElementById("direccion").value = proveedor.direccion ?? "";
-                document.getElementById("telefono").value = proveedor.telefono ?? "";
-                document.getElementById("correo").value = proveedor.correo ?? "";
-                document.querySelector("#formulario h2").textContent =
-                        "Actualizar proveedor #" + id;
-                document.querySelector(
-                        "#formulario button[onclick='guardarProveedor()']"
-                        ).textContent = "Guardar cambios";
+                    proveedorOriginal = {
+                        nombre: String(proveedor.nombre ?? "").trim(),
+                        direccion: String(proveedor.direccion ?? "").trim(),
+                        telefono: String(proveedor.telefono ?? "").trim(),
+                        correo: String(proveedor.correo ?? "").trim()
+                    };
 
-                mostrarFormulario();
-            })
-            .catch(error => {
-                console.error(error);
-                alert("No se pudo cargar el proveedor para editar");
-            });
-}
+                    document.getElementById("nombre").value = proveedor.nombre ?? "";
+                    document.getElementById("direccion").value = proveedor.direccion ?? "";
+                    document.getElementById("telefono").value = proveedor.telefono ?? "";
+                    document.getElementById("correo").value = proveedor.correo ?? "";
+                    document.querySelector("#formulario h2").textContent =
+                            "Actualizar proveedor #" + id;
+                    document.querySelector(
+                            "#formulario button[onclick='guardarProveedor()']"
+                            ).textContent = "Guardar cambios";
+
+                    mostrarFormulario();
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("No se pudo cargar el proveedor para editar");
+                });
+    }

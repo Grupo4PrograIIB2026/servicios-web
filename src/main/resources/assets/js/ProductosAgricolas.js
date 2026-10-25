@@ -144,7 +144,40 @@ function guardarProductosAgricolas() {
         existencia: document.getElementById("existencia").value.trim()
     };
 
+    const formularioVacio =
+            productosAgricolas.nombre === "" &&
+            productosAgricolas.descripcion === "" &&
+            productosAgricolas.unidadMedida === "" &&
+            productosAgricolas.precioUnitario === "" &&
+            productosAgricolas.existencia === "";
+
+    if (formularioVacio) {
+        alert("Primero agregue un producto");
+        return;
+    }
+
+    if (productosAgricolas.nombre === "" ||
+            productosAgricolas.precioUnitario === "" ||
+            productosAgricolas.existencia === "") {
+        alert("Complete al menos nombre, precio y stock");
+        return;
+    }
+
     const editando = productosAgricolasEditandoId !== null;
+
+    if (editando && productoAgricolaOriginal) {
+        const sinCambios =
+                productosAgricolas.nombre === productoAgricolaOriginal.nombre &&
+                productosAgricolas.descripcion === productoAgricolaOriginal.descripcion &&
+                productosAgricolas.unidadMedida === productoAgricolaOriginal.unidadMedida &&
+                productosAgricolas.precioUnitario === productoAgricolaOriginal.precioUnitario;
+        productosAgricolas.existencia === productoAgricolaOriginal.existencia;
+
+        if (sinCambios) {
+            alert("Primero modifique algún campo");
+            return;
+        }
+    }
 
     const url = editando
             ? `/ProductosAgricolas/${productosAgricolasEditandoId}`
@@ -173,6 +206,7 @@ function guardarProductosAgricolas() {
                         );
 
                 productosAgricolasEditandoId = null;
+                productoAgricolaOriginal = null;
 
                 document.getElementById("nombreProductosAgricolas").value = "";
                 document.getElementById("descripcion").value = "";
@@ -214,6 +248,14 @@ function actualizarProductosAgricolas(id) {
                 }
 
                 productosAgricolasEditandoId = id;
+
+                productoAgricolaOriginal = {
+                    nombre: String(productoAgricola.nombre ?? "").trim(),
+                    descripcion: String(productoAgricola.descripcion ?? "").trim(),
+                    unidadMedida: String(productoAgricola.unidadMedida ?? "").trim(),
+                    precioUnitario: String(productoAgricola.precioUnitario ?? "").trim(),
+                    existencia: String(productoAgricola.existencia ?? "").trim()
+                };
 
                 document.getElementById("nombreProductosAgricolas").value = productoAgricola.nombre ?? "";
                 document.getElementById("descripcion").value = productoAgricola.descripcion ?? "";
