@@ -3,46 +3,51 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <title>Proveedores</title>
-
+        <title>index</title>
         <link rel="stylesheet" href="assets/css/estilos.css">
     </head>
 
     <body>
-
         <div class="contenedor">
-
-            <h1>Proveedores</h1>
-
+            <h1>Menú principal</h1>
             <button class="btn-agregar" onclick="mostrarFormulario()">
-                Agregar
+                Agregar proveedor
             </button>
-
+            <button class="btn-agregar-producto" onclick="mostrarFormularioProductosAgricolas()">
+                Agregar producto
+            </button>
             <div id="formulario" class="formulario oculto">
-
                 <h2>Agregar Proveedor</h2>
-
                 <input type="text" id="nombre" placeholder="Nombre">
-
                 <input type="text" id="direccion" placeholder="Dirección">
-
                 <input type="text" id="telefono" placeholder="Teléfono">
-
-                <input type="email" id="correo" placeholder="Correo">
-
+                <input type="text" id="correo" placeholder="Correo">
+                
                 <button onclick="guardarProveedor()">
                     Guardar
                 </button>
-
                 <button onclick="ocultarFormulario()">
                     Cancelar
                 </button>
 
             </div>
+            
+            <div id="formularioProducto" class="formularioProducto ocultoProducto">
+                <h2>Agregar Producto Agricola</h2>
+                <input type="text" id="nombreProductosAgricolas" placeholder="Nombre">
+                <input type="text" id="descripcion" placeholder="Descripción">
+                <input type="text" id="unidadMedida" placeholder="Medida">
+                <input type="number" id="precioUnitario" placeholder="Precio" step="0.01">
+                <input type="number" id="existencia" placeholder="Stock">
+                <button onclick="guardarProductosAgricolas()">
+                    Guardar
+                </button>
+                <button onclick="cancelarProductosAgricolas()">
+                    Cancelar
+                </button>
 
+            </div>
             <table>
-
                 <thead>
                     <tr>
                         <th>Id Proveedor</th>
@@ -53,15 +58,27 @@
                         <th>Actualizar</th>
                     </tr>
                 </thead>
-
                 <tbody id="tablaProveedores">
                 </tbody>
-
             </table>
-
+            
+            <table id="producto">
+                <thead>
+                    <tr>
+                        <th>Id Producto</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Medida</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Actualizar</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaProductosAgricolas">
+                </tbody>
+            </table>
         </div>
-
         <script src="assets/js/Proveedores.js"></script>
-
+        <script src="assets/js/ProductosAgricolas.js"></script>
     </body>
 </html>
